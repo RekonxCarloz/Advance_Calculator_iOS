@@ -4,6 +4,18 @@ import UIKit
 class ViewController: UIViewController {
     private var isFinishedTypingNumber: Bool = true
     
+    private var displayValue: Double{
+        set{
+            displayLabel.text = String(newValue)
+        }
+        get{
+            guard let number = Double(displayLabel.text!)else{
+                fatalError("Cannot convert a String into Double")
+            }
+            return number
+        }
+    }
+    
     @IBOutlet weak var displayLabel: UILabel!
     
     
@@ -12,17 +24,15 @@ class ViewController: UIViewController {
         
         //What should happen when a non-number button is pressed
         isFinishedTypingNumber = true
-        guard let number = Double(displayLabel.text!)else{
-            fatalError("Cannot convert a String into Double")
-        }
+        
         
         if let currentMethod = sender.currentTitle{
             if currentMethod == "+/-"{
-                displayLabel.text = String(number * -1)
+                displayValue += -1
             }else if currentMethod == "AC"{
-                displayLabel.text = "0"
+                displayValue = 0
             }else if currentMethod == "%"{
-                displayLabel.text = String(number/100)
+                displayValue /= 100
             }
         }
     }
