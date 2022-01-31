@@ -3,7 +3,6 @@ import UIKit
 
 class ViewController: UIViewController {
     private var isFinishedTypingNumber: Bool = true
-    
     private var displayValue: Double{
         set{
             displayLabel.text = String(newValue)
@@ -27,13 +26,11 @@ class ViewController: UIViewController {
         
         
         if let currentMethod = sender.currentTitle{
-            if currentMethod == "+/-"{
-                displayValue += -1
-            }else if currentMethod == "AC"{
-                displayValue = 0
-            }else if currentMethod == "%"{
-                displayValue /= 100
+            let calculator = CalculatorLogic(number: displayValue)
+            guard let result = calculator.calculator(symbol: currentMethod) else{
+                fatalError("The result is nil.")
             }
+            displayValue = result
         }
     }
 
