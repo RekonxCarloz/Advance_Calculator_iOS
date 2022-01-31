@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     
     
     
+    private let calculator = CalculatorLogic()
     @IBAction func calcButtonPressed(_ sender: UIButton) {
         
         //What should happen when a non-number button is pressed
@@ -26,7 +27,6 @@ class ViewController: UIViewController {
         
         
         if let currentMethod = sender.currentTitle{
-            let calculator = CalculatorLogic(number: displayValue)
             guard let result = calculator.calculator(symbol: currentMethod) else{
                 fatalError("The result is nil.")
             }
