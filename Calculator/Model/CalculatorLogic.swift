@@ -10,17 +10,46 @@ import Foundation
 
 struct CalculatorLogic{
     private var number: Double?
+    private var intermidiateCalculation: (operation: String, firstNumber: Double)?
     
-    func calculator(symbol:String) -> Double?{
+    mutating func setNumber(_ number: Double){
+        self.number = number
+    }
+    
+    
+    mutating func calculate(symbol:String) -> Double?{
         if let n = number{
-            if symbol == "+/-"{
+            switch symbol{
+            case "+/-":
                 return n * -1
-            }else if symbol == "AC"{
+            case "AC":
                 return 0
-            }else if symbol == "%"{
+            case "%":
                 return n / 100
+            case "=":
+                return performResult(secondNumber: n)
+            default:
+                intermidiateCalculation = (operation: symbol, firstNumber: n)
             }
-            return nil
         }
+        return nil
+    }
+    
+    private func performResult(secondNumber: Double)->Double?{
+        if let numberOne = intermidiateCalculation?.firstNumber, let operation = intermidiateCalculation?.operation{
+            switch operation{
+            case "+":
+                return numberOne + secondNumber
+            case "-":
+                return numberOne - secondNumber
+            case "×":
+                return numberOne * secondNumber
+            case "÷":
+                return numberOne / secondNumber
+            default:
+                fatalError("Fatal Error")
+            }
+        }
+        return nil
     }
 }
